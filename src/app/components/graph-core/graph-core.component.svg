@@ -1,0 +1,15 @@
+<svg:rect
+  attr.width="{{_graph.width}}"
+  attr.height="{{_graph.height}}" />
+
+<svg:g #graphRef>
+  <svg:path  *ngFor="let edge of _graph.edges"
+    class="edge"
+    [attr.d]="buildPath(edge)" />
+
+  <svg:g app-graph-node *ngFor="let node of _graph.nodes"
+    [node]="node"
+    (nodeChange)="onNodeChanged($event)"></svg:g>
+</svg:g>
+
+
