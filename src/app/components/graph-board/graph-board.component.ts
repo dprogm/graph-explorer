@@ -81,7 +81,55 @@ export class GraphBoardComponent implements OnInit {
               x: 0,
               y: 0,
               width: 150,
-              height: 75
+              height: 75,
+              subgraph: {
+                nodes: [
+                  {
+                    data: null,
+                    label: "Node1",
+                    id: 1,
+                    x: 0,
+                    y: 0,
+                    width: 150,
+                    height: 75
+                  },
+                  {
+                    data: null,
+                    label: "Node2",
+                    id: 2,
+                    x: 0,
+                    y: 0,
+                    width: 150,
+                    height: 75
+                  },
+                  {
+                    data: null,
+                    label: "Node3",
+                    id: 3,
+                    x: 0,
+                    y: 0,
+                    width: 150,
+                    height: 75
+                  }
+                ],
+                edges: [
+                  {
+                    sourceId: 1,
+                    targetId: 2
+                  },
+                  {
+                    sourceId: 2,
+                    targetId: 3
+                  },
+                  {
+                    sourceId: 1,
+                    targetId: 3
+                  }
+                ],
+                width: 0,
+                height: 0,
+                isExpanded: true
+              }
             },
             {
               data: null,
@@ -117,7 +165,8 @@ export class GraphBoardComponent implements OnInit {
             }
           ],
           width: 0,
-          height: 0
+          height: 0,
+          isExpanded: true
         }
       }
     ],
@@ -164,7 +213,8 @@ export class GraphBoardComponent implements OnInit {
       }
     ],
     width: 0,
-    height: 0
+    height: 0,
+    isExpanded: true
   }
 
   constructor() { }

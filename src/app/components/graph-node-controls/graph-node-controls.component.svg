@@ -1,7 +1,20 @@
-<svg:g #nodeControls>
-  <svg:circle cx="7.5" cy="12.5" r="10"
-    (click)="toggleExpansionState()"
-    stroke="black"
-    stroke-width="5"
-    fill="brown" />
+<svg:g #nodeControls (click)="toggleExpansionState()">
+  <svg:circle
+    class="expansion-button"
+    [attr.cx]="controlsHeight-strokeWidth/2"
+    [attr.cy]="controlsHeight+strokeWidth/2"
+    [attr.r]="controlsHeight"
+    [attr.stroke-width]="strokeWidth"/>
+  <svg:g>
+    <line class="icon"
+      [attr.x1]="(controlsHeight-strokeWidth)/2"
+      [attr.y1]="controlsHeight+strokeWidth/2"
+      [attr.x2]="(controlsHeight-strokeWidth)/2+iconSize"
+      [attr.y2]="controlsHeight+strokeWidth/2" />
+    <line class="icon" *ngIf="!expansionState"
+      [attr.x1]="controlsHeight-strokeWidth/2"
+      [attr.y1]="(controlsHeight+strokeWidth)/2"
+      [attr.x2]="controlsHeight-strokeWidth/2"
+      [attr.y2]="(controlsHeight+strokeWidth)/2+iconSize" />
+  </svg:g>
 </svg:g>

@@ -9,7 +9,7 @@ import { GraphBoardComponent } from './components/graph-board/graph-board.compon
 import { GraphMinimapComponent } from './components/graph-minimap/graph-minimap.component';
 import { GraphCoreComponent } from './components/graph-core/graph-core.component';
 
-import { GRAPH_CORE_COMPONENT_TOKEN, GRAPH_NODE_COMPONENT_TOKEN } from './tokens'
+import { GRAPH_CORE_COMPONENT_TOKEN, GRAPH_NODE_COMPONENT_TOKEN } from './tokens';
 
 @NgModule({
   declarations: [

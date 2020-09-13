@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Inject, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Graph, BaseNode, Edge } from '@model/graph.interface'
 import * as dagre from 'dagre';
 
@@ -13,16 +13,14 @@ export class GraphCoreComponent implements OnInit, AfterViewInit {
 
   _graph: Graph;
 
-  minX = Infinity;
-  minY = Infinity;
-
   @ViewChild('graphRef')
   graphRef : ElementRef;
+  @Output()
+  graphDimensionChange: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(@Inject(GRAPH_NODE_COMPONENT_TOKEN) private nodeComponent) { }
 
   ngAfterViewInit(): void {
-    console.log(this.graphRef.nativeElement)
     setTimeout(() => {
       this.updateGraphDimension();
     });
@@ -41,8 +39,12 @@ export class GraphCoreComponent implements OnInit, AfterViewInit {
     console.log("Update dims")
     if(this.graphRef !== undefined) {
       let graphBBox = this.graphRef.nativeElement.getBBox();
-      this._graph.width = graphBBox.width;
-      this._graph.height = graphBBox.height;
+      if(this._graph.width != graphBBox.width
+        || this._graph.height != graphBBox.height) {
+          this._graph.width = graphBBox.width;
+          this._graph.height = graphBBox.height;
+          this.graphDimensionChange.emit();
+      }
     }
   }
 
@@ -68,12 +70,6 @@ export class GraphCoreComponent implements OnInit, AfterViewInit {
         if(parsedId == node.id) {
           node.x = dagreNode.x;
           node.y = dagreNode.y;
-          if(node.x < this.minX) {
-            this.minX = node.x;
-          }
-          if(node.y < this.minY) {
-            this.minY = node.y;
-          }
         }
       }
       for(let dagreEdge of graph.edges()) {
@@ -90,6 +86,9 @@ export class GraphCoreComponent implements OnInit, AfterViewInit {
 
   onNodeChanged(node: BaseNode) {
     this.updateLayout();
+    requestAnimationFrame(() => {
+      this.updateGraphDimension();
+    });
   }
 
   buildPath(edge: Edge) {

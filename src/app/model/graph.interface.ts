@@ -39,4 +39,5 @@ export interface Graph {
   edges: Edge[];
   width: number;
   height: number;
+  isExpanded: Boolean;
 }

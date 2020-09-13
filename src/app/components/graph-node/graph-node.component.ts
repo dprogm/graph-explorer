@@ -33,8 +33,6 @@ export class GraphNodeComponent implements OnInit, AfterViewInit {
 
   subgraph: Graph = undefined;
 
-  isExpanded: Boolean = true;
-
   subgraphContainer = {
     paddingY: 10,
     paddingX: 10
@@ -53,7 +51,7 @@ export class GraphNodeComponent implements OnInit, AfterViewInit {
       let labelFieldBBox = this.labelField.nativeElement.getBBox();
       this.labelWidth = labelFieldBBox.width;
       this.labelHeight = labelFieldBBox.height;
-      if(this.subgraph !== undefined) {
+      if(this.subgraph !== undefined && this.subgraph.isExpanded) {
         this.setSubgraphNodeDimension();
         this.nodeChange.emit(this.baseNode);
       }
@@ -67,6 +65,7 @@ export class GraphNodeComponent implements OnInit, AfterViewInit {
   set node(node: GraphNode) {
     this.baseNode = node;
     if(isSubgraphNode(node)) {
+      console.log(node.subgraph.isExpanded)
       this.subgraph = node.subgraph;
     }
   }
@@ -87,9 +86,14 @@ export class GraphNodeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onSubgraphChanged() : void {
+    this.setSubgraphNodeDimension();
+    this.nodeChange.emit(this.baseNode);
+  }
+
   onExpansionStateChanged(state: Boolean) : void {
-    this.isExpanded = state;
-    if(this.isExpanded) {
+    this.subgraph.isExpanded = state;
+    if(state) {
       this.setSubgraphNodeDimension();
     } else {
       this.setDefaultNodeDimension();
