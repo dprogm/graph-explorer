@@ -21,25 +21,34 @@ import {
 })
 export class GraphNodeComponent implements OnInit, AfterViewInit {
 
-  baseNode: BaseNode;
-
   @ViewChild('labelField')
   labelField : ElementRef;
+  @ViewChild('nodeBody')
+  nodeBody : ElementRef;
+  @Output()
+  nodeChange: EventEmitter<BaseNode> = new EventEmitter<BaseNode>();
 
   labelWidth: number = 0;
   labelHeight: number = 0;
-
-  ctrlDim: Dimension = {width: 0, height: 0};
-
+  baseNode: BaseNode;
   subgraph: Graph = undefined;
 
-  subgraphContainer = {
-    paddingY: 10,
-    paddingX: 10
+  nodeProperties = {
+    rx: 15,
+    ry: 15
   }
-
-  @Output()
-  nodeChange: EventEmitter<BaseNode> = new EventEmitter<BaseNode>();
+  subgraphContainer = {
+    paddingY: 15,
+    paddingX: 15
+  }
+  graphControls = {
+    dimension: {
+      width: 0,
+      height: 0
+    },
+    paddingY: 5,
+    paddingX: 5
+  }
 
   constructor() { }
 
@@ -70,19 +79,24 @@ export class GraphNodeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  changeSize(width, height) {
+    this.baseNode.width = width;
+    this.baseNode.height = height;
+    this.nodeChange.emit(this.baseNode);
+  }
+
   setSubgraphNodeDimension() : void {
-    this.baseNode.width = this.subgraph.width+2*this.subgraphContainer.paddingX;
-    this.baseNode.height = this.subgraph.height+2*this.subgraphContainer.paddingY+this.labelHeight;
+    this.changeSize(this.subgraph.width+2*this.subgraphContainer.paddingX,
+      this.subgraph.height+2*this.subgraphContainer.paddingY+this.labelHeight)
   }
 
   setDefaultNodeDimension() : void {
-    this.baseNode.width = 150;
-    this.baseNode.height = 75;
+    this.changeSize(150, 75);
   }
 
   onControlDimChanged(ctrlDim: Dimension) : void {
     setTimeout(() => {
-      this.ctrlDim = ctrlDim;
+      this.graphControls.dimension = ctrlDim;
     });
   }
 

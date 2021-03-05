@@ -1,6 +1,8 @@
-# GraphExplorer
+# Graph Explorer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.5.
+Explore directed graphs that have a nested structure by expanding or collapsing nodes.
+
+![alt text](img/example_graph.png "Example graph")
 
 ## Development server
 

@@ -1,7 +1,3 @@
-<svg:rect
-  attr.width="{{_graph.width}}"
-  attr.height="{{_graph.height}}" />
-
 <svg:g #graphRef>
   <svg:path  *ngFor="let edge of _graph.edges"
     class="edge"

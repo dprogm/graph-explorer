@@ -1,18 +1,24 @@
 <svg:g attr.transform="translate({{baseNode.x-baseNode.width/2}} {{baseNode.y-baseNode.height/2}})">
-  <svg:rect
+  <svg:rect #nodeBody
     class="node-common"
     [ngClass]="(subgraph !== undefined)?'subgraph-node':'base-node'"
     [attr.width]="baseNode.width"
-    [attr.height]="baseNode.height" />
+    [attr.height]="baseNode.height"
+    [attr.rx]="nodeProperties.rx"
+    [attr.ry]="nodeProperties.ry" />
 
   <svg:text #labelField
-    class="small"
     [attr.x]="baseNode.width/2-labelWidth/2"
     [attr.y]="labelHeight">{{baseNode.label}}</text>
 
   <svg:g *ngIf="subgraph !== undefined">
     <svg:g app-graph-node-controls
-    [attr.transform]="'translate(' + (baseNode.width-ctrlDim.width) + ')'"
+    [attr.transform]="
+      'translate('
+        + (baseNode.width-graphControls.dimension.width-graphControls.paddingX)
+        + ','
+        + (graphControls.paddingY)
+        + ')'"
     (controlDimChange)="onControlDimChanged($event)"
     [expansionState]="subgraph.isExpanded"
     (expansionStateChange)="onExpansionStateChanged($event)"></svg:g>
